@@ -6,8 +6,8 @@ import Feed from "../Routes/Feed";
 import Post from "../Routes/Post";
 import Profile from "../Routes/Profile";
 
-import Explore from "../Routes/Explore";
-import EditProfile from "../Routes/EditProfile";
+import Explore from "../Routes/Explore/ExploreContainer";
+import EditProfile from "../Routes/EditProfile/EditProfilePresenter";
 const LoggedInRoutes = () => (
   <>
     <Route exact component={Feed} path={"/"} />
