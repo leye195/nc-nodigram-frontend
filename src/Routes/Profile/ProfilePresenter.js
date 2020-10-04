@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Wrapper = styled.div``;
 
-const ProfilePresenter = () => {
-  return <Wrapper />;
+const ProfilePresenter = ({ username }) => {
+  return <Wrapper>{username}p</Wrapper>;
 };
 export default ProfilePresenter;

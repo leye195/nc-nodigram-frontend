@@ -8,4 +8,5 @@ export default {
   darkGreyColor: "#999",
   boxBorder: "#e6e6e6",
   borderRadius: "4px",
+  maxWidth: "935px",
 };

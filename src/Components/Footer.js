@@ -7,6 +7,7 @@ const Footer = styled.footer`
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
+  margin: 50px 0;
 `;
 const List = styled.ul`
   ${flex("row", "center", "center")};

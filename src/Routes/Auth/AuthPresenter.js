@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Button from "../../Components/Button";
 import Input from "../../Components/Input";
+//import Notice from "../../Components/Notice";
 import { flex, whiteBox } from "../../Styles/Mixin";
 
 const Wrapper = styled.div`
@@ -42,29 +43,37 @@ const Form = styled(Box)`
 const AuthPresenter = ({
   action,
   username,
-  password,
   firstName,
   lastName,
   email,
+  secret,
   setAction,
+  onLogin,
+  onSignup,
+  onConfirm,
 }) => {
   return (
     <Wrapper>
       <Form>
-        {action === "logIn" ? (
-          <form>
-            <Input placeholder={"Username"} {...username} />
-            <Input placeholder={"Password"} {...password} type="password" />
+        {action === "logIn" && (
+          <form onSubmit={onLogin}>
+            <Input placeholder={"Email"} {...email} type="email" />
             <Button text={"Log In"} />
           </form>
-        ) : (
-          <form>
-            <Input placeholder={"First name"} {...firstName} />
-            <Input placeholder={"Last name"} {...lastName} />
+        )}{" "}
+        {action === "signUp" && (
+          <form onSubmit={onSignup}>
+            <Input placeholder={"First name"} {...firstName} required={false} />
+            <Input placeholder={"Last name"} {...lastName} required={false} />
             <Input placeholder={"Email"} {...email} type="email" />
             <Input placeholder={"Username"} {...username} />
-            <Input placeholder={"Password"} {...password} type="password" />
             <Button text={"Sign Up"} />
+          </form>
+        )}
+        {action === "confirm" && (
+          <form onSubmit={onConfirm}>
+            <Input placeholder={"Paste your Secret"} {...secret} />
+            <Button text={"Confirm"} />
           </form>
         )}
       </Form>
