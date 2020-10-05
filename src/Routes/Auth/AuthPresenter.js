@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Button from "../../Components/Button";
+import Helmet from "../../Components/Helmet";
 import Input from "../../Components/Input";
-//import Notice from "../../Components/Notice";
 import { flex, whiteBox } from "../../Styles/Mixin";
 
 const Wrapper = styled.div`
@@ -56,23 +56,61 @@ const AuthPresenter = ({
     <Wrapper>
       <Form>
         {action === "logIn" && (
-          <form onSubmit={onLogin}>
-            <Input placeholder={"Email"} {...email} type="email" />
-            <Button text={"Log In"} />
-          </form>
-        )}{" "}
+          <>
+            <Helmet>
+              <title>LogIn | Nodigram </title>
+            </Helmet>
+            <form onSubmit={onLogin}>
+              <Input
+                placeholder={"Email"}
+                value={email.value}
+                onChange={email.onChange}
+                type="email"
+              />
+              <Button text={"Log In"} />
+            </form>
+          </>
+        )}
         {action === "signUp" && (
-          <form onSubmit={onSignup}>
-            <Input placeholder={"First name"} {...firstName} required={false} />
-            <Input placeholder={"Last name"} {...lastName} required={false} />
-            <Input placeholder={"Email"} {...email} type="email" />
-            <Input placeholder={"Username"} {...username} />
-            <Button text={"Sign Up"} />
-          </form>
+          <>
+            <Helmet>
+              <title>SignUp | Nodigram </title>
+            </Helmet>
+            <form onSubmit={onSignup}>
+              <Input
+                placeholder={"First name"}
+                value={firstName.value}
+                onChange={firstName.onChange}
+                required={false}
+              />
+              <Input
+                placeholder={"Last name"}
+                value={lastName.value}
+                onChange={lastName.onChange}
+                required={false}
+              />
+              <Input
+                placeholder={"Email"}
+                value={email.value}
+                onChange={email.onChange}
+                type="email"
+              />
+              <Input
+                placeholder={"Username"}
+                value={username.value}
+                onChange={username.onChange}
+              />
+              <Button text={"Sign Up"} />
+            </form>
+          </>
         )}
         {action === "confirm" && (
           <form onSubmit={onConfirm}>
-            <Input placeholder={"Paste your Secret"} {...secret} />
+            <Input
+              placeholder={"Paste your Secret"}
+              value={secret.value}
+              onChange={secret.onChange}
+            />
             <Button text={"Confirm"} />
           </form>
         )}

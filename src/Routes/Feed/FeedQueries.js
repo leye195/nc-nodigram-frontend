@@ -16,6 +16,7 @@ export const FEED_QUERY = gql`
       location
       caption
       likeCount
+      commentCount
       isLiked
       comments {
         id

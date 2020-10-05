@@ -83,7 +83,8 @@ const Header = () => {
           <form onSubmit={onSubmit}>
             <Input
               placeholder={"Search"}
-              {...search}
+              value={search.value}
+              onChange={search.onChange}
               required={false}
               className={"search"}
             />
