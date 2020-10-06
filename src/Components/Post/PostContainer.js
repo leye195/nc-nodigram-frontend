@@ -5,7 +5,6 @@ import useInput from "../../Hooks/useInput";
 import { useMutation, useQuery } from "react-apollo-hooks";
 import { ADD_COMMENT, ME, TOGGLE_LIKE } from "./PostQueries";
 import { toast } from "react-toastify";
-import { likeAnimation } from "../../Styles/Animation";
 
 const PostContainer = ({
   id,
@@ -73,20 +72,22 @@ const PostContainer = ({
       try {
         e.preventDefault();
         const text = comment.value;
-        const {
-          data: { addComment },
-        } = await addCommentMutation({
-          variables: { postId: id, text },
-        });
-        setSelfComment([
-          ...selfComment,
-          {
-            id: addComment.id,
-            text: comment.value,
-            user: { username: meQuery.myProfile?.user?.username },
-          },
-        ]);
-        comment.setValue("");
+        if (text !== "") {
+          const {
+            data: { addComment },
+          } = await addCommentMutation({
+            variables: { postId: id, text },
+          });
+          setSelfComment([
+            ...selfComment,
+            {
+              id: addComment.id,
+              text: comment.value,
+              user: { username: meQuery.myProfile?.user?.username },
+            },
+          ]);
+          comment.setValue("");
+        }
       } catch (e) {
         toast.error("Can't send comment");
       }
@@ -95,20 +96,23 @@ const PostContainer = ({
   const onSubmit = async (e) => {
     e.preventDefault();
     const text = comment.value;
-    const {
-      data: { addComment },
-    } = await addCommentMutation({
-      variables: { postId: id, text },
-    });
-    setSelfComment([
-      ...selfComment,
-      {
-        id: addComment.id,
-        text: addComment.text,
-        user: { username: meQuery.myProfile?.user?.username },
-      },
-    ]);
-    comment.setValue("");
+    if (text !== "") {
+      const {
+        data: { addComment },
+      } = await addCommentMutation({
+        variables: { postId: id, text },
+      });
+      setSelfComment([
+        ...selfComment,
+        {
+          id: addComment.id,
+          text: addComment.text,
+          user: { username: meQuery.myProfile?.user?.username },
+        },
+      ]);
+      comment.setValue("");
+    } else {
+    }
   };
   useEffect(() => {
     //slide();

@@ -14,6 +14,7 @@ const LoggedInRoutes = () => (
     <Route exact component={Explore} path={`/explore`} />
     <Route exact component={Search} path={`/search`} />
     <Route exact component={EditProfile} path={`/accounts/edit`} />
+    <Route exact component={Post} path={`/post/:id`} />
     <Route component={Profile} path={`/:username`} />
   </Switch>
 );

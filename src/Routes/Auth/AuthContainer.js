@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation } from "react-apollo-hooks";
 import { toast } from "react-toastify";
 import useInput from "../../Hooks/useInput";
@@ -114,6 +114,9 @@ const AuthContainer = () => {
       }
     }
   };
+  useEffect(() => {
+    return () => {};
+  }, []);
   return (
     <AuthPresenter
       action={action}

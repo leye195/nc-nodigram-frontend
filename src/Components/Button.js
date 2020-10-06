@@ -10,8 +10,12 @@ const Container = styled.button`
   color: white;
   width: 100%;
   text-align: center;
-  padding: 8px 0;
+  padding: 8px 5px;
   font-size: 14px;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Button = ({ text }) => <Container>{text}</Container>;

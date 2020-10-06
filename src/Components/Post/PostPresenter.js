@@ -13,7 +13,7 @@ import {
 } from "../Icons";
 import { flex, whiteBox } from "../../Styles/Mixin";
 import TextareaAutosize from "react-autosize-textarea";
-import { likeAnimation } from "../../Styles/Animation";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Post = styled.article`
   ${whiteBox}
@@ -111,6 +111,7 @@ const TimeStamp = styled.span`
 `;
 
 const TextAreaWrapper = styled.form`
+  position: relative;
   ${flex("row", "center", "center")};
   padding: 10px 0;
 `;
@@ -123,6 +124,10 @@ const TextArea = styled(TextareaAutosize)`
   &:focus {
     outline: none;
   }
+  &:disabled {
+    outline: none;
+    background-color: white;
+  }
 `;
 
 const Comments = styled.ul`
@@ -134,6 +139,13 @@ const UserComment = styled.li`
   span {
     margin-right: 5px;
   }
+`;
+
+const LoaderWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  ${flex("row", "center", "center")}
 `;
 
 const PostPresenter = ({
@@ -229,7 +241,18 @@ const PostPresenter = ({
             placeholder={"Add a comment..."}
             onKeyPress={onKeyPress}
           />
-          <Button onClick={onSubmit}>Submit</Button>
+          <Button
+            onClick={
+              (!addCommentLoading || newComment.value !== "") && onSubmit
+            }
+          >
+            Submit
+          </Button>
+          {addCommentLoading && (
+            <LoaderWrapper>
+              <ClipLoader size={20} />
+            </LoaderWrapper>
+          )}
         </TextAreaWrapper>
       </Meta>
     </Post>
