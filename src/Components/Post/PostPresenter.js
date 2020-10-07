@@ -11,7 +11,13 @@ import {
   LeftArrow,
   RightArrow,
 } from "../Icons";
-import { flex, whiteBox } from "../../Styles/Mixin";
+import {
+  flex,
+  TextAreaStyle,
+  TextAreaWrapperStyle,
+  TimeStampStyle,
+  whiteBox,
+} from "../../Styles/Mixin";
 import TextareaAutosize from "react-autosize-textarea";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -101,40 +107,28 @@ const Buttons = styled.section`
 `;
 
 const TimeStamp = styled.span`
-  display: block;
-  font-weight: 400;
-  text-transform: uppercase;
-  opacity: 0.8;
-  margin: 10px 0;
-  padding-bottom: 10px;
-  border-bottom: 1px solid ${(props) => props.theme.lightGreyColor};
+  ${TimeStampStyle};
 `;
 
 const TextAreaWrapper = styled.form`
-  position: relative;
-  ${flex("row", "center", "center")};
-  padding: 10px 0;
+  ${TextAreaWrapperStyle};
 `;
 
 const TextArea = styled(TextareaAutosize)`
-  resize: none;
-  flex: 1;
-  border: none;
-  font-size: 14px;
-  &:focus {
-    outline: none;
-  }
-  &:disabled {
-    outline: none;
-    background-color: white;
-  }
+  ${TextAreaStyle};
 `;
 
 const Comments = styled.ul`
   margin-top: 10px;
 `;
 
+const CommentCount = styled.span`
+  color: ${(props) => props.theme.darkGreyColor};
+  cursor: ${(props) => props.clickable && "pointer"};
+`;
+
 const UserComment = styled.li`
+  margin-top: 10px;
   margin-bottom: 7px;
   span {
     margin-right: 5px;
@@ -148,13 +142,25 @@ const LoaderWrapper = styled.div`
   ${flex("row", "center", "center")}
 `;
 
+const UserCaption = styled.section`
+  margin-bottom: 10px;
+  margin-top: 10px;
+  span {
+    margin-right: 10px;
+  }
+`;
+
+const UserLink = styled(Link)`
+  color: ${(props) => props.theme.blackColor};
+`;
+
 const PostPresenter = ({
   id,
   caption,
   location,
   isLiked,
   likeCount,
-  user: { username, avatar },
+  user: { id: userId, username, avatar },
   commentCount,
   comments,
   selfComment,
@@ -170,6 +176,8 @@ const PostPresenter = ({
   onKeyPress,
   onSubmit,
   addCommentLoading,
+  me,
+  history,
 }) => {
   //console.log(addCommentLoading);
   return (
@@ -212,25 +220,45 @@ const PostPresenter = ({
           <Button onClick={setIsLiked}>
             {isLiked ? <HeartFull color={"#ED4956"} /> : <HeartEmpty />}
           </Button>
-          <Button>
+          <Button
+            onClick={() => {
+              history.push({
+                pathname: `/post/${id}`,
+              });
+            }}
+          >
             <Comment />
           </Button>
         </Buttons>
         <FatText text={likeCount === 1 ? `1 like` : `${likeCount} likes`} />
+        <UserCaption>
+          <UserLink to={`/${me?.username}`}>
+            <FatText text={me?.username} />
+          </UserLink>
+          {caption}
+        </UserCaption>
         {comments && (
           <Comments>
-            {comments.map((comment) => (
-              <UserComment key={comment.id}>
-                <FatText text={comment?.user?.username} />
-                {comment.text}
-              </UserComment>
-            ))}
-            {selfComment.map((comment) => (
-              <UserComment key={comment.id}>
-                <FatText text={comment?.user?.username} />
-                {comment.text}
-              </UserComment>
-            ))}
+            <CommentCount
+              clickable={commentCount > 2}
+              onClick={() => {
+                history.push({
+                  path: `/post/${id}`,
+                });
+              }}
+            >{`${commentCount} comments`}</CommentCount>
+
+            {[...comments, ...selfComment]
+              .slice(
+                comments.length + selfComment.length - 3,
+                comments.length + selfComment.length
+              )
+              .map((comment) => (
+                <UserComment key={comment.id}>
+                  <FatText text={comment?.user?.username} />
+                  {comment.text}
+                </UserComment>
+              ))}
           </Comments>
         )}
         <TimeStamp>{moment(createdAt).format("YYYY-MM-DD hh:mm:ss")}</TimeStamp>

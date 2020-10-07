@@ -11,10 +11,10 @@ import Search from "../Routes/Search";
 const LoggedInRoutes = () => (
   <Switch>
     <Route exact component={Feed} path={"/"} />
+    <Route exact component={Post} path={`/post/:id`} />
     <Route exact component={Explore} path={`/explore`} />
     <Route exact component={Search} path={`/search`} />
     <Route exact component={EditProfile} path={`/accounts/edit`} />
-    <Route exact component={Post} path={`/post/:id`} />
     <Route component={Profile} path={`/:username`} />
   </Switch>
 );

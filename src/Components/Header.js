@@ -25,7 +25,7 @@ const Container = styled.header`
   border: 0;
   border-bottom: 1px solid ${(props) => props.theme.boxBorder};
   border-radius: 0;
-  margin-bottom: 60px;
+  margin-bottom: 50px;
   ${flex("row", "center", "center")};
 `;
 const Wrapper = styled.div`

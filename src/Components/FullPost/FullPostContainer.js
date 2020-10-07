@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
-import PostPresenter from "./PostPresenter";
+import React, { useRef, useState } from "react";
 import propTypes from "prop-types";
+import FullPostPresenter from "./FullPostPresenter";
 import useInput from "../../Hooks/useInput";
-import { useMutation, useQuery } from "react-apollo-hooks";
-import { ADD_COMMENT, ME, TOGGLE_LIKE } from "./PostQueries";
-import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import { useMutation, useQuery } from "react-apollo-hooks";
+import { ADD_COMMENT, ME, TOGGLE_LIKE } from "./FullPostQueries";
+import { toast } from "react-toastify";
 
-const PostContainer = ({
+const FullPostContainer = ({
   id,
   caption,
   location,
@@ -26,12 +26,12 @@ const PostContainer = ({
   const [currentItem, setCurrentItem] = useState(0);
   const [selfComment, setSelfComment] = useState([]);
   const comment = useInput("");
+  const history = useHistory();
   const { data: meQuery } = useQuery(ME);
   const [addCommentMutation, { loading: addCommentLoading }] = useMutation(
     ADD_COMMENT
   );
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE);
-  const history = useHistory();
 
   const slide = ({ direction = "left" }) => {
     const totalFiles = files.length;
@@ -44,23 +44,22 @@ const PostContainer = ({
     }
   };
   const handleLike = async (e) => {
-    if (isLikedS) {
-      setIsLiked((cur) => false);
-      setLikeCount((cur) => cur - 1);
-    } else {
-      setIsLiked((cur) => true);
-      setLikeCount((cur) => cur + 1);
-      likedRef.current.animate(
-        [
-          { opacity: 0, transform: `scale(1)` },
-          { opacity: 1, transform: `scale(1.2)` },
-          { opacity: 0, transform: `scale(1.0)` },
-        ],
-        850
-      );
-    }
-
     try {
+      if (isLikedS) {
+        setIsLiked((cur) => false);
+        setLikeCount((cur) => cur - 1);
+      } else {
+        setIsLiked((cur) => true);
+        setLikeCount((cur) => cur + 1);
+        likedRef.current.animate(
+          [
+            { opacity: 0, transform: `scale(1)` },
+            { opacity: 1, transform: `scale(1.2)` },
+            { opacity: 0, transform: `scale(1.0)` },
+          ],
+          850
+        );
+      }
       await toggleLikeMutation({
         variables: { postId: id },
       });
@@ -69,12 +68,15 @@ const PostContainer = ({
       toast.error("Can't register like");
     }
   };
+
   const onKeyPress = async (e) => {
     const { key } = e;
+    console.log(key);
     if (key === "Enter") {
       try {
         e.preventDefault();
         const text = comment.value;
+        console.log(comment.value);
         if (text !== "") {
           const {
             data: { addComment },
@@ -96,33 +98,8 @@ const PostContainer = ({
       }
     }
   };
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    const text = comment.value;
-    if (text !== "") {
-      const {
-        data: { addComment },
-      } = await addCommentMutation({
-        variables: { postId: id, text },
-      });
-      setSelfComment([
-        ...selfComment,
-        {
-          id: addComment.id,
-          text: addComment.text,
-          user: { username: meQuery.myProfile?.user?.username },
-        },
-      ]);
-      comment.setValue("");
-    } else {
-    }
-  };
-  useEffect(() => {
-    //slide();
-    return () => {};
-  }, []);
   return (
-    <PostPresenter
+    <FullPostPresenter
       id={id}
       location={location}
       caption={caption}
@@ -135,21 +112,17 @@ const PostContainer = ({
       selfComment={selfComment}
       createdAt={createdAt}
       newComment={comment}
-      setIsLiked={handleLike}
-      setLikeCount={setLikeCount}
-      setCommentCount={setCommentCount}
-      currentItem={currentItem}
       slide={slide}
+      currentItem={currentItem}
+      history={history}
       likedRef={likedRef}
       onKeyPress={onKeyPress}
-      onSubmit={onSubmit}
       addCommentLoading={addCommentLoading}
-      me={meQuery?.myProfile?.user}
-      history={history}
+      setIsLiked={handleLike}
     />
   );
 };
-PostContainer.propTypes = {
+FullPostContainer.propTypes = {
   id: propTypes.string.isRequired,
   caption: propTypes.string.isRequired,
   location: propTypes.string,
@@ -179,4 +152,4 @@ PostContainer.propTypes = {
     })
   ).isRequired,
 };
-export default PostContainer;
+export default FullPostContainer;

@@ -38,3 +38,33 @@ export const avatarImageSize = (size) => {
     `;
   }
 };
+
+export const TimeStampStyle = css`
+  display: block;
+  font-weight: 400;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin: 10px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid ${(props) => props.theme.lightGreyColor};
+`;
+
+export const TextAreaWrapperStyle = css`
+  position: relative;
+  ${flex("row", "center", "center")};
+  padding: 10px 0;
+`;
+
+export const TextAreaStyle = css`
+  resize: none;
+  flex: 1;
+  border: none;
+  font-size: 14px;
+  &:focus {
+    outline: none;
+  }
+  &:disabled {
+    outline: none;
+    background-color: white;
+  }
+`;
