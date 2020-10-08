@@ -5,9 +5,10 @@ import FatText from "../../Components/FatText";
 import Loader from "../../Components/Loader";
 import UserCard from "../../Components/UserCard";
 import SquarePost from "../../Components/SquarePost";
+import Divide from "../../Components/Divide";
 
 const Container = styled.div`
-  height: 50vh;
+  min-height: 80vh;
 `;
 
 const Section = styled.section`
@@ -26,7 +27,7 @@ const PostSection = styled(Section)`
 `;
 
 const SearchPresenter = ({ term, data, loading }) => {
-  console.log(data, loading);
+  //console.log(data, loading);
   return (
     <Container>
       {term === undefined ? (
@@ -35,22 +36,25 @@ const SearchPresenter = ({ term, data, loading }) => {
         <>
           {loading && <Loader />}
           {!loading && (
-            <Section>
-              {data?.searchUser?.length === 0 ? (
-                <FatText text={"No Users Found"} />
-              ) : (
-                data?.searchUser?.map((user) => (
-                  <UserCard
-                    key={user.id}
-                    id={user.id}
-                    isFollowing={user.isFollowing}
-                    isSelf={user.isSelf}
-                    username={user.username}
-                    url={user.avatar}
-                  />
-                ))
-              )}
-            </Section>
+            <>
+              <Section>
+                {data?.searchUser?.length === 0 ? (
+                  <FatText text={"No Users Found"} />
+                ) : (
+                  data?.searchUser?.map((user) => (
+                    <UserCard
+                      key={user.id}
+                      id={user.id}
+                      isFollowing={user.isFollowing}
+                      isSelf={user.isSelf}
+                      username={user.username}
+                      url={user.avatar}
+                    />
+                  ))
+                )}
+              </Section>
+              <Divide />
+            </>
           )}
           {!loading && (
             <PostSection>

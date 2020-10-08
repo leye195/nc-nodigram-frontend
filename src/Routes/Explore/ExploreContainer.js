@@ -1,10 +1,11 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useQuery } from "react-apollo-hooks";
 import ExplorePresenter from "./ExplorePresenter";
+import { EXPLORE_POST } from "./ExploreQueries";
 
 const ExploreContainer = () => {
-  const { id } = useParams();
-  console.log(id);
-  return <ExplorePresenter />;
+  const { data, loading } = useQuery(EXPLORE_POST);
+  console.log(data, loading);
+  return <ExplorePresenter loading={loading} data={data} />;
 };
 export default ExploreContainer;

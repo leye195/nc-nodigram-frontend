@@ -9,5 +9,7 @@ Instagram clone with Express + Prisma + React and React Native (frontend)
 - [x] Search
 - [x] Post
 - [x] Profile
-- [ ] Explore
+- [x] Explore
 - [ ] EditProfile
+- [ ] Message
+- [ ] Notification

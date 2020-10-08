@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Button from "../../Components/Button";
 import Helmet from "../../Components/Helmet";
+import { Logo } from "../../Components/Icons";
 import Input from "../../Components/Input";
 import { flex, whiteBox } from "../../Styles/Mixin";
 
@@ -54,6 +55,7 @@ const AuthPresenter = ({
 }) => {
   return (
     <Wrapper>
+      <Logo size={40} />
       <Form>
         {action === "logIn" && (
           <>

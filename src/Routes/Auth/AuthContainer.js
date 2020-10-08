@@ -103,9 +103,10 @@ const AuthContainer = () => {
           },
         });
         if (token !== "" && token !== undefined) {
-          logUserInMutation({
+          await logUserInMutation({
             variables: { token },
           });
+          window.location = "/";
         } else {
           throw Error();
         }

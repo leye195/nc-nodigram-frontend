@@ -1,5 +1,5 @@
 import { gql } from "apollo-boost";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-apollo-hooks";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -16,6 +16,7 @@ import {
   User,
 } from "./Icons";
 import Input from "./Input";
+import ProfileMenu from "./ProfileMenu";
 
 const Container = styled.header`
   height: 55px;
@@ -52,6 +53,13 @@ const HeaderLink = styled(Link)`
   }
 `;
 
+const UserRow = styled.div`
+  position: relative;
+  display: inline;
+  margin-left: 20px;
+  cursor: pointer;
+`;
+
 const ME = gql`
   {
     myProfile {
@@ -64,13 +72,27 @@ const ME = gql`
 
 const Header = () => {
   const search = useInput("");
+  const [openMenu, setOpenMenu] = useState(false);
   const history = useHistory();
   const { data } = useQuery(ME);
   const { pathname } = useLocation();
+
+  const toggleMenu = (e) => {
+    const { target } = e;
+    if (target.classList.contains("profile")) setOpenMenu((cur) => !cur);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     history.push(`/search?term=${search.value}`);
   };
+
+  useEffect(() => {
+    window.onclick = () => {
+      if (openMenu) setOpenMenu((cur) => false);
+    };
+  }, [openMenu]);
+
   return (
     <Container>
       <Wrapper>
@@ -91,8 +113,12 @@ const Header = () => {
           </form>
         </Column>
         <Column>
-          <HeaderLink to={"/direct"}>
-            {pathname === "/direct" ? <PaperPlaneFull /> : <PaperPlaneEmpty />}
+          <HeaderLink to={"/direct/inbox"}>
+            {pathname.startsWith("/direct") ? (
+              <PaperPlaneFull />
+            ) : (
+              <PaperPlaneEmpty />
+            )}
           </HeaderLink>
           <HeaderLink to={"/explore"}>
             {pathname === "/explore" ? <CompassFull /> : <CompassEmpty />}
@@ -105,9 +131,12 @@ const Header = () => {
               <User />
             </HeaderLink>
           ) : (
-            <HeaderLink to={`/${data?.myProfile?.user?.username}`}>
-              <User />
-            </HeaderLink>
+            <UserRow onClick={toggleMenu}>
+              <User className={"profile"} />
+              {openMenu && (
+                <ProfileMenu username={data?.myProfile?.user?.username} />
+              )}
+            </UserRow>
           )}
         </Column>
       </Wrapper>
