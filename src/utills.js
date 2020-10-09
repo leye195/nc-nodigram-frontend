@@ -6,3 +6,11 @@ export const getRecentMessage = (messages) => {
   const textLength = text.length;
   return textLength >= 20 ? `${text}...` : text;
 };
+
+export const isMine = (username, from) => username === from;
+
+export const checkParent = (target, className) => {
+  let parent = target;
+  while (!parent.classList.contains(className)) parent = parent.parentNode;
+  return parent.classList.contains(className);
+};

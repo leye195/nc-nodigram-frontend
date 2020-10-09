@@ -84,7 +84,7 @@ const PostSection = styled.div`
   display: grid;
   grid-gap: 20px;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 230px;
+  grid-template-rows: 250px;
   grid-auto-rows: 230px;
 `;
 

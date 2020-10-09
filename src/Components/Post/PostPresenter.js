@@ -106,6 +106,11 @@ const Buttons = styled.section`
   margin-bottom: 10px;
 `;
 
+const LikeCount = styled.div`
+  display: inline-block;
+  cursor: pointer;
+`;
+
 const TimeStamp = styled.span`
   ${TimeStampStyle};
 `;
@@ -230,7 +235,9 @@ const PostPresenter = ({
             <Comment />
           </Button>
         </Buttons>
-        <FatText text={likeCount === 1 ? `1 like` : `${likeCount} likes`} />
+        <LikeCount>
+          <FatText text={likeCount === 1 ? `1 like` : `${likeCount} likes`} />
+        </LikeCount>
         <UserCaption>
           <UserLink to={`/${me?.username}`}>
             <FatText text={me?.username} />

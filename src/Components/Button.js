@@ -18,8 +18,10 @@ const Container = styled.button`
   }
 `;
 
-const Button = ({ text, className }) => (
-  <Container className={className}>{text}</Container>
+const Button = ({ text, className, onClick }) => (
+  <Container className={className} onClick={onClick}>
+    {text}
+  </Container>
 );
 Button.propsType = {
   text: propsType.string.isRequired,
