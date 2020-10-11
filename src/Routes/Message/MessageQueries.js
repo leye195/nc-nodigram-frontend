@@ -84,3 +84,20 @@ export const ME = gql`
     }
   }
 `;
+
+export const NEW_MESSAGE = gql`
+  subscription newMessage($roomId: String!) {
+    newMessage(roomId: $roomId) {
+      id
+      text
+      from {
+        username
+        avatar
+      }
+      to {
+        username
+        avatar
+      }
+    }
+  }
+`;

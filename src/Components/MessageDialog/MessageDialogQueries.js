@@ -9,3 +9,11 @@ export const USER_BY_USERNAME = gql`
     }
   }
 `;
+
+export const CREATE_ROOM = gql`
+  mutation createRoom($username: String!) {
+    createRoom(username: $username) {
+      id
+    }
+  }
+`;

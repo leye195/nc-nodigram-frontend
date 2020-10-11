@@ -1,5 +1,6 @@
 import React from "react";
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
+//import { gql } from "apollo-boost";
 import styled, { ThemeProvider } from "styled-components";
 import GlobalStyles from "../Styles/GlobalStyles";
 import theme from "../Styles/Theme";
@@ -24,17 +25,16 @@ const Wrapper = styled.div`
 `;
 
 const App = () => {
-  const {
-    data: { isLoggedIn },
-  } = useQuery(QUERY);
+  const { data } = useQuery(QUERY);
+  console.log(data);
   //console.log(isLoggedIn);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <Router>
-        {isLoggedIn && <Header />}
+        {data?.isLoggedIn && <Header />}
         <Wrapper>
-          <Routes isLoggedIn={isLoggedIn} />
+          <Routes isLoggedIn={data?.isLoggedIn} />
           <Footer />
           <ToastContainer
             position={toast.POSITION.TOP_CENTER}

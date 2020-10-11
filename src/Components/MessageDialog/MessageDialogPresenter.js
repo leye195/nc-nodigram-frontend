@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { flex } from "../../Styles/Mixin";
+import { flex, whiteBox } from "../../Styles/Mixin";
 import FatText from "../FatText";
 import Input from "../Input";
-import { Close } from "../Icons";
+import { CheckEmpty, Close } from "../Icons";
 import ClipLoader from "react-spinners/ClipLoader";
+import Avatar from "../Avatar";
 
 const Container = styled.div`
   height: 100%;
@@ -64,9 +65,31 @@ const List = styled.ul`
   overflow-y: scroll;
 `;
 
-const Item = styled.li``;
+const Item = styled.li`
+  position: relative;
+  padding: 10px;
+  ${flex("row", "center")};
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  span {
+    margin-left: 10px;
+  }
+  svg {
+    position: absolute;
+    right: 0;
+  }
+`;
 
-const MessageDialogPresenter = ({ receiver, data, loading }) => {
+const Check = styled.div`
+  ${whiteBox};
+  ${flex("row", "center", "center")}
+  border-radius: 50%;
+`;
+
+const MessageDialogPresenter = ({ receiver, data, loading, selectUser }) => {
+  //console.log(data);
   return (
     <Container className={"dialog"}>
       <Header>
@@ -89,7 +112,19 @@ const MessageDialogPresenter = ({ receiver, data, loading }) => {
             <ClipLoader size={20} />
           </Loading>
         )}
-        {!loading && <List></List>}
+        {!loading && (
+          <List>
+            {data?.userByUsername?.map((user) => (
+              <Item key={user.id} onClick={() => selectUser(user.username)}>
+                <Avatar url={user.avatar} size={"sm"} />
+                <FatText text={user.username} />
+                <Check>
+                  <CheckEmpty color={"#c7c7c7"} />
+                </Check>
+              </Item>
+            ))}
+          </List>
+        )}
       </ListWrapper>
     </Container>
   );

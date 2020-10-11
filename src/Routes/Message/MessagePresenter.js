@@ -128,8 +128,9 @@ const InBoxWrapper = styled.article`
 `;
 
 const RecordWrapper = styled.div`
-  width: 100%;
   ${flex("column")};
+  max-height: 80vh;
+  width: 100%;
   flex: 1;
 `;
 
@@ -158,12 +159,19 @@ const TextArea = styled(TextareaAutosize)`
   }
 `;
 
+const LoadingWrapper = styled.div`
+  ${flex("row", "center", "center")};
+  width: 100%;
+  margin-top: 20px;
+`;
+
 const MessagePresenter = ({
   loading,
   data,
   meQuery,
   meLoading,
   type,
+  messages,
   roomData,
   roomLoading,
   input,
@@ -215,7 +223,7 @@ const MessagePresenter = ({
             </UserList>
           </UserSection>
           <RecordSection>
-            {type === "inbox" ? (
+            {type === "inbox" || type === "new" ? (
               <InBoxWrapper>
                 <PaperPlaneEmpty size={50} />
                 <FatText text={"My Message"} />
@@ -223,7 +231,12 @@ const MessagePresenter = ({
               </InBoxWrapper>
             ) : (
               <>
-                {!roomLoading && roomData && (
+                {roomLoading && (
+                  <LoadingWrapper>
+                    <Loader />
+                  </LoadingWrapper>
+                )}
+                {!roomLoading && messages && (
                   <RecordWrapper>
                     <Title>
                       <Avatar
@@ -245,7 +258,7 @@ const MessagePresenter = ({
                       />
                     </Title>
                     <MessageWrapper>
-                      {roomData?.seeRoom?.messages?.map((message) => (
+                      {messages?.map((message) => (
                         <Message
                           key={message.id}
                           isMe={isMine(
